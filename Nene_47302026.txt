@@ -1,0 +1,305 @@
+1.
+create database EliteVideo
+use EliteVideo;
+
+create table Membership(
+    Mem_num int(3) primary key,
+    Mem_Fname char(20),
+    Mem_Lname char(20),
+    Mem_Street varchar(40),
+    Mem_State char(2),
+    Mem_Zip int (5),
+    Mem_Balance int,
+    Mem_City char(20),
+);
+
+ 
+
+create table Price (
+    Price_Code int(1) PRIMARY KEY, 
+    Price_Description char(20), 
+    Price_Rentfee decimal(10,2), 
+    Price_Dailylatefee int(1));
+
+
+
+create table Rental (
+    Rent_num int(4) primary key, 
+    Rent_Date varchar(10), 
+    Mem_num int(3), 
+    foreign key (Mem_num) references Membership(Mem_num));
+
+
+
+CREATE TABLE Movie(
+    Movie_num int(4) PRIMARY KEY, 
+    Movie_Name char(30), 
+    Movie_Year char(4), 
+    Movie_cost decimal(4,2), 
+    Movie_Genre char(10), 
+    Price_Code int(1), 
+    FOREIGN KEY (Price_Code) REFERENCES Price(Price_Code));
+
+
+CREATE TABLE Video (
+    Vid_Num int(5) PRIMARY KEY,
+    Vid_indate varchar(0),
+    Movie_num int(4), 
+    FOREIGN KEY (Movie_num) REFERENCES Movie(Movie_num));
+
+
+
+CREATE TABLE DetailRental (
+    Rent_num int (4),
+    Vid_Num int(5), 
+    Detail_Fee decimal(9,2), 
+    Detail_Duedate varchar(10),
+    Detail_Returndate varchar(10), 
+    Detail_Dailylatefee int(10),
+    PRIMARY KEY(Rent_num,Vid_Num), 
+    FOREIGN KEY (Rent_num) REFERENCES Rental(Rent_num), 
+    FOREIGN KEY (Vid_Num) REFERENCES Video(Vid_Num));
+
+ 
+
+
+2. Inserting Values
+Insert into Membership(Mem_num, Mem_Fname, Mem_Lname, Mem_Street, Mem_City, Mem_State, Mem_Zip, Mem_Balance)values
+    (102, 'Tami', 'Dawson', '2632 Takli Circle', 'Norene', 'TN', '37136', 11), 
+    (103, 'Curt', 'Knight', '4025 Cornell Court', 'Flatgap', 'KY', '41219', 6), 
+    (104, 'Jamal', 'Melendez', '788 East 145th Avenue', 'Quebeck', 'TN', '38579', 0),
+    (105, 'Iva', 'Mcclain', '6045 Musket Ball Circle', 'Summit', 'KY', '42783', 15), 
+    (106, 'Miranda', 'Parks', '4469 Maxwell Place', 'Germantown', 'TN', '38183', 0), 
+    (107, 'Rosario', 'Elliott', '7578 Danner Avenue', 'Columbia', 'TN', '38402', 5), 
+    (108, 'Mattie', 'Guy', '4390 Evergreen Street', 'Lily', 'KY', '40740', 0), 
+    (109, 'Clint', 'Ochoa', '1711 Elm Street', 'Greeneville', 'TN', '37745', 10),
+    (110, 'Lewis', 'Rosales', '4524 Southwind Circle', 'Counce', 'TN', '38326', 0), 
+    (111, 'Stacy', 'Mann', '2789 East Cook Avenue', 'Murfreesboro', 'TN', '37132', 8), 
+    (112, 'Luis', 'Trujillo', '7267 Melvin Avenue', 'Heiskell', 'TN', '37754', 3),
+    (113, 'Minnie', 'Gonzales', '6430 Vasili Drive', 'Williston', 'TN', '38076', 0);
+
+
+ Insert into Price(Price_Code, Price_Description,Price_Rentfee, Price_Dailylatefee)values
+    (1,'Standard',2,1),
+    (2,'New Release',3.5,3),
+    (3,'Discount',1.5,1),
+    (4,'Weekly Special',1,.5);
+
+Insert into  Rental(Rent_num ,Rent_Date,Mem_num)values
+    (1001, '2016-03-01', 103),
+    (1002, '2016-03-01', 105),
+    (1003, '2016-03-02', 102),
+    (1004, '2016-03-02', 110),
+    (1005, '2016-03-02', 111),
+    (1006, '2016-03-02', 107),
+    (1007, '2016-03-02', 104),
+    (1008, '2016-03-03', 105),
+    (1009, '2016-03-03', 111);
+
+Insert into Movie(Movie_Num,Movie_Name,Movie_Year,Movie_cost,Movie_genre,Price_code)values
+    (1234, 'The Cesar Family Christmas', 2014, 39.95, 'FAMILY', 2),
+    (1235, 'Smokey Mountain Wildlife', 2011, 59.95, 'ACTION', 1),
+    (1236, 'Richard Goodhope', 2015, 59.95, 'DRAMA', 2),
+    (1237, 'Beatnik Fever', 2014, 29.95, 'COMEDY', 2),
+    (1238, 'Constant Companion', 2015, 89.95, 'DRAMA', NULL),
+    (1239, 'Where Hope Dies', 2005, 25.49, 'DRAMA', 3),
+    (1245, 'Time to Burn', 2012, 45.49, 'ACTION', 1),
+    (1246, 'What He Doesn''t Know', 2013, 58.29, 'COMEDY', 1);
+
+
+
+Insert into  Video (Vid_Num,Vid_indate,Movie_num)values
+    (54324, '18-JUN-15', 1234),
+    (54325, '18-JUN-15', 1234),
+    (34341, '22-JAN-14', 1235),
+    (34342, '22-JAN-14', 1235),
+    (34366, '02-MAR-16', 1236),
+    (34367, '02-MAR-16', 1236),
+    (34368, '02-MAR-16', 1236),
+    (34369, '02-MAR-16', 1236),
+    (44392, '21-OCT-15', 1237),
+    (44397, '21-OCT-15', 1237),
+    (59237, '14-FEB-16', 1237),
+    (61388, '25-JAN-14', 1239),
+    (61353, '28-JAN-13', 1245),
+    (61354, '28-JAN-13', 1245),
+    (61367, '30-JUL-15', 1246),
+    (61369, '30-JUL-15', 1246);
+
+
+Insert into DetailRental (Rent_num, Vid_Num, Detail_Fee, Detail_Duedate, Detail_Returndate, Detail_Dailylatefee) values
+    (1001, 34342, 2, '04-MAR-16', '02-MAR-16', NULL),
+    (1001, 61353, 2, '04-MAR-16', '03-MAR-16', 1),
+    (1002, 59237, 3.5, '04-MAR-16', '04-MAR-16', 1),
+    (1003, 54325, 3.5, '04-MAR-16', '09-MAR-16', 3),
+    (1003, 61369, 2, '06-MAR-16', '09-MAR-16', 3),
+    (1003, 61388, 0, '06-MAR-16', '09-MAR-16', 1),
+    (1004, 44392, 3.5, '05-MAR-16', '07-MAR-16', 3),
+    (1004, 34367, 3.5, '05-MAR-16', '07-MAR-16', 3),
+    (1004, 34341, 2, '07-MAR-16', '07-MAR-16', 1),
+    (1005, 34342, 2, '07-MAR-16', '05-MAR-16', 1),
+    (1005, 44397, 3.5, '05-MAR-16', '05-MAR-16', 3),
+    (1006, 34366, 3.5, '05-MAR-16', '04-MAR-16', 3),
+    (1006, 61367, 2, '07-MAR-16', NULL, 1),
+    (1007, 34368, 3.5, '05-MAR-16', NULL, 3),
+    (1008, 34369, 3.5, '05-MAR-16', '05-MAR-16', 3),
+    (1009, 54324, 3.5, '05-MAR-16', NULL, 3),
+    (1001, 34366, 3.5, '04-MAR-16', '02-MAR-16', 3);
+
+
+
+
+3.
+update Movie
+Set Movie_Year= '2010'
+where Movie_num = 1245;
+
+before
++-----------+------------+
+| Movie_num | Movie_Year |
++-----------+------------+
+|      1234 | 2014       |
+|      1235 | 2011       |
+|      1236 | 2015       |
+|      1237 | 2014       |
+|      1238 | 2015       |
+|      1239 | 2005       |
+|      1245 | 2012       |
+|      1246 | 2013       |
++-----------+------------+
+
+after
++-----------+------------+
+| Movie_num | Movie_Year |
++-----------+------------+
+|      1234 | 2014       |
+|      1235 | 2011       |
+|      1236 | 2015       |
+|      1237 | 2014       |
+|      1238 | 2015       |
+|      1239 | 2005       |
+|      1245 | 2010       |
+|      1246 | 2013       |
++-----------+------------+
+
+4.
+update Movie
+set Price_Code = 1
+where Movie_Genre = 'ACTION'
+
+
+before
++-----------+-------------+------------+
+| Movie_num | Movie_Genre | Price_Code |
++-----------+-------------+------------+
+|      1234 | FAMILY      |          2 |
+|      1235 | ACTION      |          1 |
+|      1236 | DRAMA       |          2 |
+|      1237 | COMEDY      |          2 |
+|      1238 | DRAMA       |       NULL |
+|      1239 | DRAMA       |          3 |
+|      1245 | ACTION      |          1 |
+|      1246 | COMEDY      |          1 |
++-----------+-------------+------------+
+
+after 
++-----------+-------------+------------+
+| Movie_num | Movie_Genre | Price_Code |
++-----------+-------------+------------+
+|      1234 | FAMILY      |          2 |
+|      1235 | ACTION      |          3 |
+|      1236 | DRAMA       |          2 |
+|      1237 | COMEDY      |          2 |
+|      1238 | DRAMA       |       NULL |
+|      1239 | DRAMA       |          3 |
+|      1245 | ACTION      |          3 |
+|      1246 | COMEDY      |          1 |
++-----------+-------------+------------+
+
+5. Update 
+Set Price_Rentfee = Price_Rentfee + 0.50
+
+
+6. Select Movie_Name, Movie_Year , Movie_Genre 
+    from Movie;
+
+7. Select Movie_Year, Movie_Name,Movie_cost 
+    from Movie Order by Movie_Year DESC;
+
+8. Select Movie_Name, Movie_Year, Movie_Genre from Movie
+    Order by Movie_Genre ASC, Movie_Year DESC;
+
+9. Select Movie_num,Movie_Name , Price_Code from Movie 
+    where Movie_Name like '%R%';
+
+10. Select Movie_Name, Movie_Year, Movie_cost feom Movie 
+    where Movie_Name like "%hope%";
+
+11. Select Movie_Name, Movie_Year, Movie_Genre from Movie 
+    where Movie_Genre = 'Action';
+
+12. Select Movie_num, Movie_Name, Movie_cost from Movie  
+    where Movie_cost > 40;
+
+13. Select Movie_num, Movie_Name, Movie_cost , Movie_Genre from Movie 
+    where (Movie_Genre ='Action' or Movie_Genre = 'Comedy') and Movie_cost < 50 order by Movie_Genre ASC;
+
+14. Select Mem_num, Mem_Fname, Mem_Lname , Mem_Street, Mem_Balance from Membership 
+    where Mem_Balance < 5 AND Mem_Street like '%Avenue%';
+
+15. Select  Movie_Genre, Count(*) AS "Number_of_Movies" from Movie 
+    group by Movie_Genre;
+
+16. Select Avg(Movie_cost) AS "Average_Movie_Cost" 
+    from Movie ;
+
+17. Select Movie_Genre, AVG(Movie_cost) AS "Average_Cost" 
+    from Movie group by Movie_Genre;
+
+18. Select Movie.Movie_Name, Movie.Movie_Genre, Price.Price_Description, Price.Price_RentFee from Movie 
+    Inner Join Price On Movie.Price_Code = Price.Price_Code ;
+
+19. Select M.Movie_Genre, AVG( P.Price_RentFee) As 'Average Rental Fee' from Movie M  
+    Inner Join Price P on M.Price_Code= P.Price_Code 
+    Where M.Price_Code IS NOT NULL group by M.Movie_Genre ; 
+
+
+20.Select M.Movie_Name, Movie_Cost / Price_RentFee  AS 'Breakeven Rentals' from Movie M 
+    Inner Join Price P on M.Price_Code= P.Price_Code 
+    Where M.Movie_Cost IS NOT NULL group by M.Movie_Name ;
+
+21.Select Movie_Name, Movie_Year from Movie 
+    where Price_Code IS NOT NULL;
+
+22. Select Movie_Name, Movie_Genre, Movie_cost from Movie 
+    where Movie_cost > 44.99 AND Movie_cost < 49.99; 
+
+23. Select M.Movie_Name,P.Price_Description ,P.Price_Rentfee, M.Movie_Genre from Movie M 
+    Inner Join Price P on M.Price_Code =P.Price_Code 
+    where M.Movie_Genre in ('FAMILY','COMEDY','DRAMA'); 
+
+24. Select M.Mem_num, M.Mem_Fname, M.Mem_Lname, M.Mem_Balance from Membership M 
+    Inner Join Rental R on M.Mem_Num = R.Mem_Num;
+
+25.Select MIN( M.Mem_Balance), MAX(M.Mem_Balance), AVG(M.Mem_Balance) from Membership M 
+    Inner Join Rental R on M.Mem_Num = R.Mem_Num ;
+
+26. Select R.Rent_num, R.Rent_Date, D.Vid_Num, M.Movie_Name, D.Detail_Duedate, D.Detail_Returndate from  Rental R  
+    Join DetailRental D on R.Rent_num = D.Rent_num
+    join Video v on D.Vid_Num  = v.Vid_Num Join Movie M On V.Movie_num = M.Movie_num
+    Where D.Detail_Returndate > D.Detail_Duedate Order By R.Rent_num, M.Movie_Name;
+
+27.Select R.Rent_num, R.Rent_Date,M.Movie_Name,D.Detail_Fee from Rental R 
+    Join DetailRental D on R.Rent_num = D.Rent_num 
+    Join Video V on D.Vid_Num= V.Vid_Num 
+    Join Movie M On V.Movie_num = M.Movie_num   
+    where D.Detail_Returndate <= D.Detail_Duedate Order by R.Rent_num,M.Movie_Name;
+
+28.Select Movie_num, Movie_Genre, round(avg(Movie_Cost) over (partition by Movie_Genre), 2) 
+    as 'Average Cost', Movie_Cost, round(((Movie_Cost - avg(Movie_Cost) 
+    over (partition by Movie_Genre)) / avg(Movie_Cost) 
+    over (partition by Movie_Genre) * 100), 2) as 'Percent Difference' from Movie; 
+    select Movie_num, Movie_Genre, round(avg(Movie_Cost) over (partition by Movie_Genre), 2) 
+    as 'Average Cost', Movie_Cost, round(((Movie_Cost - avg(Movie_Cost) 
+    over (partition by Movie_Genre)) / avg(Movie_Cost) 
+    over (partition by Movie_Genre) * 100), 2) as 'Percent Difference' from Movie;

@@ -1,305 +1,2370 @@
-1.
-create database EliteVideo
-use EliteVideo;
-
-create table Membership(
-    Mem_num int(3) primary key,
-    Mem_Fname char(20),
-    Mem_Lname char(20),
-    Mem_Street varchar(40),
-    Mem_State char(2),
-    Mem_Zip int (5),
-    Mem_Balance int,
-    Mem_City char(20),
-);
-
- 
-
-create table Price (
-    Price_Code int(1) PRIMARY KEY, 
-    Price_Description char(20), 
-    Price_Rentfee decimal(10,2), 
-    Price_Dailylatefee int(1));
-
-
-
-create table Rental (
-    Rent_num int(4) primary key, 
-    Rent_Date varchar(10), 
-    Mem_num int(3), 
-    foreign key (Mem_num) references Membership(Mem_num));
-
-
-
-CREATE TABLE Movie(
-    Movie_num int(4) PRIMARY KEY, 
-    Movie_Name char(30), 
-    Movie_Year char(4), 
-    Movie_cost decimal(4,2), 
-    Movie_Genre char(10), 
-    Price_Code int(1), 
-    FOREIGN KEY (Price_Code) REFERENCES Price(Price_Code));
-
-
-CREATE TABLE Video (
-    Vid_Num int(5) PRIMARY KEY,
-    Vid_indate varchar(0),
-    Movie_num int(4), 
-    FOREIGN KEY (Movie_num) REFERENCES Movie(Movie_num));
-
-
-
-CREATE TABLE DetailRental (
-    Rent_num int (4),
-    Vid_Num int(5), 
-    Detail_Fee decimal(9,2), 
-    Detail_Duedate varchar(10),
-    Detail_Returndate varchar(10), 
-    Detail_Dailylatefee int(10),
-    PRIMARY KEY(Rent_num,Vid_Num), 
-    FOREIGN KEY (Rent_num) REFERENCES Rental(Rent_num), 
-    FOREIGN KEY (Vid_Num) REFERENCES Video(Vid_Num));
-
- 
-
-
-2. Inserting Values
-Insert into Membership(Mem_num, Mem_Fname, Mem_Lname, Mem_Street, Mem_City, Mem_State, Mem_Zip, Mem_Balance)values
-    (102, 'Tami', 'Dawson', '2632 Takli Circle', 'Norene', 'TN', '37136', 11), 
-    (103, 'Curt', 'Knight', '4025 Cornell Court', 'Flatgap', 'KY', '41219', 6), 
-    (104, 'Jamal', 'Melendez', '788 East 145th Avenue', 'Quebeck', 'TN', '38579', 0),
-    (105, 'Iva', 'Mcclain', '6045 Musket Ball Circle', 'Summit', 'KY', '42783', 15), 
-    (106, 'Miranda', 'Parks', '4469 Maxwell Place', 'Germantown', 'TN', '38183', 0), 
-    (107, 'Rosario', 'Elliott', '7578 Danner Avenue', 'Columbia', 'TN', '38402', 5), 
-    (108, 'Mattie', 'Guy', '4390 Evergreen Street', 'Lily', 'KY', '40740', 0), 
-    (109, 'Clint', 'Ochoa', '1711 Elm Street', 'Greeneville', 'TN', '37745', 10),
-    (110, 'Lewis', 'Rosales', '4524 Southwind Circle', 'Counce', 'TN', '38326', 0), 
-    (111, 'Stacy', 'Mann', '2789 East Cook Avenue', 'Murfreesboro', 'TN', '37132', 8), 
-    (112, 'Luis', 'Trujillo', '7267 Melvin Avenue', 'Heiskell', 'TN', '37754', 3),
-    (113, 'Minnie', 'Gonzales', '6430 Vasili Drive', 'Williston', 'TN', '38076', 0);
-
-
- Insert into Price(Price_Code, Price_Description,Price_Rentfee, Price_Dailylatefee)values
-    (1,'Standard',2,1),
-    (2,'New Release',3.5,3),
-    (3,'Discount',1.5,1),
-    (4,'Weekly Special',1,.5);
-
-Insert into  Rental(Rent_num ,Rent_Date,Mem_num)values
-    (1001, '2016-03-01', 103),
-    (1002, '2016-03-01', 105),
-    (1003, '2016-03-02', 102),
-    (1004, '2016-03-02', 110),
-    (1005, '2016-03-02', 111),
-    (1006, '2016-03-02', 107),
-    (1007, '2016-03-02', 104),
-    (1008, '2016-03-03', 105),
-    (1009, '2016-03-03', 111);
-
-Insert into Movie(Movie_Num,Movie_Name,Movie_Year,Movie_cost,Movie_genre,Price_code)values
-    (1234, 'The Cesar Family Christmas', 2014, 39.95, 'FAMILY', 2),
-    (1235, 'Smokey Mountain Wildlife', 2011, 59.95, 'ACTION', 1),
-    (1236, 'Richard Goodhope', 2015, 59.95, 'DRAMA', 2),
-    (1237, 'Beatnik Fever', 2014, 29.95, 'COMEDY', 2),
-    (1238, 'Constant Companion', 2015, 89.95, 'DRAMA', NULL),
-    (1239, 'Where Hope Dies', 2005, 25.49, 'DRAMA', 3),
-    (1245, 'Time to Burn', 2012, 45.49, 'ACTION', 1),
-    (1246, 'What He Doesn''t Know', 2013, 58.29, 'COMEDY', 1);
-
-
-
-Insert into  Video (Vid_Num,Vid_indate,Movie_num)values
-    (54324, '18-JUN-15', 1234),
-    (54325, '18-JUN-15', 1234),
-    (34341, '22-JAN-14', 1235),
-    (34342, '22-JAN-14', 1235),
-    (34366, '02-MAR-16', 1236),
-    (34367, '02-MAR-16', 1236),
-    (34368, '02-MAR-16', 1236),
-    (34369, '02-MAR-16', 1236),
-    (44392, '21-OCT-15', 1237),
-    (44397, '21-OCT-15', 1237),
-    (59237, '14-FEB-16', 1237),
-    (61388, '25-JAN-14', 1239),
-    (61353, '28-JAN-13', 1245),
-    (61354, '28-JAN-13', 1245),
-    (61367, '30-JUL-15', 1246),
-    (61369, '30-JUL-15', 1246);
-
-
-Insert into DetailRental (Rent_num, Vid_Num, Detail_Fee, Detail_Duedate, Detail_Returndate, Detail_Dailylatefee) values
-    (1001, 34342, 2, '04-MAR-16', '02-MAR-16', NULL),
-    (1001, 61353, 2, '04-MAR-16', '03-MAR-16', 1),
-    (1002, 59237, 3.5, '04-MAR-16', '04-MAR-16', 1),
-    (1003, 54325, 3.5, '04-MAR-16', '09-MAR-16', 3),
-    (1003, 61369, 2, '06-MAR-16', '09-MAR-16', 3),
-    (1003, 61388, 0, '06-MAR-16', '09-MAR-16', 1),
-    (1004, 44392, 3.5, '05-MAR-16', '07-MAR-16', 3),
-    (1004, 34367, 3.5, '05-MAR-16', '07-MAR-16', 3),
-    (1004, 34341, 2, '07-MAR-16', '07-MAR-16', 1),
-    (1005, 34342, 2, '07-MAR-16', '05-MAR-16', 1),
-    (1005, 44397, 3.5, '05-MAR-16', '05-MAR-16', 3),
-    (1006, 34366, 3.5, '05-MAR-16', '04-MAR-16', 3),
-    (1006, 61367, 2, '07-MAR-16', NULL, 1),
-    (1007, 34368, 3.5, '05-MAR-16', NULL, 3),
-    (1008, 34369, 3.5, '05-MAR-16', '05-MAR-16', 3),
-    (1009, 54324, 3.5, '05-MAR-16', NULL, 3),
-    (1001, 34366, 3.5, '04-MAR-16', '02-MAR-16', 3);
-
-
-
-
-3.
-update Movie
-Set Movie_Year= '2010'
-where Movie_num = 1245;
-
-before
-+-----------+------------+
-| Movie_num | Movie_Year |
-+-----------+------------+
-|      1234 | 2014       |
-|      1235 | 2011       |
-|      1236 | 2015       |
-|      1237 | 2014       |
-|      1238 | 2015       |
-|      1239 | 2005       |
-|      1245 | 2012       |
-|      1246 | 2013       |
-+-----------+------------+
-
-after
-+-----------+------------+
-| Movie_num | Movie_Year |
-+-----------+------------+
-|      1234 | 2014       |
-|      1235 | 2011       |
-|      1236 | 2015       |
-|      1237 | 2014       |
-|      1238 | 2015       |
-|      1239 | 2005       |
-|      1245 | 2010       |
-|      1246 | 2013       |
-+-----------+------------+
-
-4.
-update Movie
-set Price_Code = 1
-where Movie_Genre = 'ACTION'
-
-
-before
-+-----------+-------------+------------+
-| Movie_num | Movie_Genre | Price_Code |
-+-----------+-------------+------------+
-|      1234 | FAMILY      |          2 |
-|      1235 | ACTION      |          1 |
-|      1236 | DRAMA       |          2 |
-|      1237 | COMEDY      |          2 |
-|      1238 | DRAMA       |       NULL |
-|      1239 | DRAMA       |          3 |
-|      1245 | ACTION      |          1 |
-|      1246 | COMEDY      |          1 |
-+-----------+-------------+------------+
-
-after 
-+-----------+-------------+------------+
-| Movie_num | Movie_Genre | Price_Code |
-+-----------+-------------+------------+
-|      1234 | FAMILY      |          2 |
-|      1235 | ACTION      |          3 |
-|      1236 | DRAMA       |          2 |
-|      1237 | COMEDY      |          2 |
-|      1238 | DRAMA       |       NULL |
-|      1239 | DRAMA       |          3 |
-|      1245 | ACTION      |          3 |
-|      1246 | COMEDY      |          1 |
-+-----------+-------------+------------+
-
-5. Update 
-Set Price_Rentfee = Price_Rentfee + 0.50
-
-
-6. Select Movie_Name, Movie_Year , Movie_Genre 
-    from Movie;
-
-7. Select Movie_Year, Movie_Name,Movie_cost 
-    from Movie Order by Movie_Year DESC;
-
-8. Select Movie_Name, Movie_Year, Movie_Genre from Movie
-    Order by Movie_Genre ASC, Movie_Year DESC;
-
-9. Select Movie_num,Movie_Name , Price_Code from Movie 
-    where Movie_Name like '%R%';
-
-10. Select Movie_Name, Movie_Year, Movie_cost feom Movie 
-    where Movie_Name like "%hope%";
-
-11. Select Movie_Name, Movie_Year, Movie_Genre from Movie 
-    where Movie_Genre = 'Action';
-
-12. Select Movie_num, Movie_Name, Movie_cost from Movie  
-    where Movie_cost > 40;
-
-13. Select Movie_num, Movie_Name, Movie_cost , Movie_Genre from Movie 
-    where (Movie_Genre ='Action' or Movie_Genre = 'Comedy') and Movie_cost < 50 order by Movie_Genre ASC;
-
-14. Select Mem_num, Mem_Fname, Mem_Lname , Mem_Street, Mem_Balance from Membership 
-    where Mem_Balance < 5 AND Mem_Street like '%Avenue%';
-
-15. Select  Movie_Genre, Count(*) AS "Number_of_Movies" from Movie 
-    group by Movie_Genre;
-
-16. Select Avg(Movie_cost) AS "Average_Movie_Cost" 
-    from Movie ;
-
-17. Select Movie_Genre, AVG(Movie_cost) AS "Average_Cost" 
-    from Movie group by Movie_Genre;
-
-18. Select Movie.Movie_Name, Movie.Movie_Genre, Price.Price_Description, Price.Price_RentFee from Movie 
-    Inner Join Price On Movie.Price_Code = Price.Price_Code ;
-
-19. Select M.Movie_Genre, AVG( P.Price_RentFee) As 'Average Rental Fee' from Movie M  
-    Inner Join Price P on M.Price_Code= P.Price_Code 
-    Where M.Price_Code IS NOT NULL group by M.Movie_Genre ; 
-
-
-20.Select M.Movie_Name, Movie_Cost / Price_RentFee  AS 'Breakeven Rentals' from Movie M 
-    Inner Join Price P on M.Price_Code= P.Price_Code 
-    Where M.Movie_Cost IS NOT NULL group by M.Movie_Name ;
-
-21.Select Movie_Name, Movie_Year from Movie 
-    where Price_Code IS NOT NULL;
-
-22. Select Movie_Name, Movie_Genre, Movie_cost from Movie 
-    where Movie_cost > 44.99 AND Movie_cost < 49.99; 
-
-23. Select M.Movie_Name,P.Price_Description ,P.Price_Rentfee, M.Movie_Genre from Movie M 
-    Inner Join Price P on M.Price_Code =P.Price_Code 
-    where M.Movie_Genre in ('FAMILY','COMEDY','DRAMA'); 
-
-24. Select M.Mem_num, M.Mem_Fname, M.Mem_Lname, M.Mem_Balance from Membership M 
-    Inner Join Rental R on M.Mem_Num = R.Mem_Num;
-
-25.Select MIN( M.Mem_Balance), MAX(M.Mem_Balance), AVG(M.Mem_Balance) from Membership M 
-    Inner Join Rental R on M.Mem_Num = R.Mem_Num ;
-
-26. Select R.Rent_num, R.Rent_Date, D.Vid_Num, M.Movie_Name, D.Detail_Duedate, D.Detail_Returndate from  Rental R  
-    Join DetailRental D on R.Rent_num = D.Rent_num
-    join Video v on D.Vid_Num  = v.Vid_Num Join Movie M On V.Movie_num = M.Movie_num
-    Where D.Detail_Returndate > D.Detail_Duedate Order By R.Rent_num, M.Movie_Name;
-
-27.Select R.Rent_num, R.Rent_Date,M.Movie_Name,D.Detail_Fee from Rental R 
-    Join DetailRental D on R.Rent_num = D.Rent_num 
-    Join Video V on D.Vid_Num= V.Vid_Num 
-    Join Movie M On V.Movie_num = M.Movie_num   
-    where D.Detail_Returndate <= D.Detail_Duedate Order by R.Rent_num,M.Movie_Name;
-
-28.Select Movie_num, Movie_Genre, round(avg(Movie_Cost) over (partition by Movie_Genre), 2) 
-    as 'Average Cost', Movie_Cost, round(((Movie_Cost - avg(Movie_Cost) 
-    over (partition by Movie_Genre)) / avg(Movie_Cost) 
-    over (partition by Movie_Genre) * 100), 2) as 'Percent Difference' from Movie; 
-    select Movie_num, Movie_Genre, round(avg(Movie_Cost) over (partition by Movie_Genre), 2) 
-    as 'Average Cost', Movie_Cost, round(((Movie_Cost - avg(Movie_Cost) 
-    over (partition by Movie_Genre)) / avg(Movie_Cost) 
-    over (partition by Movie_Genre) * 100), 2) as 'Percent Difference' from Movie;
+%PDF-1.3
+%ºß¬à
+3 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 595.2799999999999727 841.8899999999999864]
+/Contents 4 0 R
+>>
+endobj
+4 0 obj
+<<
+/Length 5684
+>>
+stream
+0.5670000000000001 w
+0 G
+q
+BT
+/F2 52 Tf
+59.7999999999999972 TL
+0.902 g
+0.7071067811865476 0.7071067811865475 -0.7071067811865475 0.7071067811865476 209.7599999999999909 420.9449999999999932 Tm
+(DRAFT) Tj
+ET
+Q
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 785.1970866141732586 Td
+(1.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 770.897077606299149 Td
+(create database EliteVideo) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 756.5970685984251531 Td
+(use EliteVideo;) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 727.9970505826771614 Td
+(create table Membership\() Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 713.6970415748031655 Td
+(    Mem_num int\(3\) primary key,) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 699.3970325669291697 Td
+(    Mem_Fname char\(20\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 685.0970235590550601 Td
+(    Mem_Lname char\(20\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 670.7970145511810642 Td
+(    Mem_Street varchar\(40\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 656.4970055433070684 Td
+(    Mem_State char\(2\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 642.1969965354330725 Td
+(    Mem_Zip int \(5\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 627.8969875275590766 Td
+(    Mem_Balance int,) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 613.5969785196850808 Td
+(    Mem_City char\(20\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 599.2969695118109712 Td
+(\);) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 542.096933480314874 Td
+(create table Price \() Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 527.7969244724408782 Td
+(    Price_Code int\(1\) PRIMARY KEY,) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 513.4969154645668823 Td
+(    Price_Description char\(20\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 499.1969064566927727 Td
+(    Price_Rentfee decimal\(10,2\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 484.8968974488187769 Td
+(    Price_Dailylatefee int\(1\)\);) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 427.6968614173226229 Td
+(create table Rental \() Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 413.396852409448627 Td
+(    Rent_num int\(4\) primary key,) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 399.0968434015745743 Td
+(    Rent_Date varchar\(10\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 384.7968343937005216 Td
+(    Mem_num int\(3\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 370.4968253858265257 Td
+(    foreign key \(Mem_num\) references Membership\(Mem_num\)\);) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 313.2967893543303717 Td
+(CREATE TABLE Movie\() Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 298.9967803464563758 Td
+(    Movie_num int\(4\) PRIMARY KEY,) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 284.6967713385823799 Td
+(    Movie_Name char\(30\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 270.3967623307082704 Td
+(    Movie_Year char\(4\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 256.0967533228342745 Td
+(    Movie_cost decimal\(4,2\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 241.7967443149602786 Td
+(    Movie_Genre char\(10\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 227.4967353070861691 Td
+(    Price_Code int\(1\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 213.1967262992121732 Td
+(    FOREIGN KEY \(Price_Code\) REFERENCES Price\(Price_Code\)\);) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 170.2966992755900719 Td
+(CREATE TABLE Video \() Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 155.9966902677160761 Td
+(    Vid_Num int\(5\) PRIMARY KEY,) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 141.6966812598420802 Td
+(    Vid_indate varchar\(0\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 127.3966722519679706 Td
+(    Movie_num int\(4\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 113.0966632440939748 Td
+(    FOREIGN KEY \(Movie_num\) REFERENCES Movie\(Movie_num\)\);) Tj
+ET
+q
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.431 g
+217.5399999999999352 813.5435433070865656 Td
+(TXT to PDF Local Converter Workspace) Tj
+ET
+0.82 G
+0.4251968503937008 w
+56.6929133858267775 807.8742519685039269 m
+538.5870866141731312 807.8742519685039269 l
+S
+Q
+q
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.431 g
+216.144999999999925 28.3464566929134207 Td
+(Protected Client-Side Document Compile) Tj
+ET
+Q
+q
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 g
+274.7799999999999727 22.6771653543306684 Td
+(Page 1 of 7) Tj
+ET
+Q
+endstream
+endobj
+5 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 595.2799999999999727 841.8899999999999864]
+/Contents 6 0 R
+>>
+endobj
+6 0 obj
+<<
+/Length 7283
+>>
+stream
+0.4251968503937008 w
+0.82 G
+q
+BT
+/F2 52 Tf
+59.7999999999999972 TL
+0.902 g
+0.7071067811865476 0.7071067811865475 -0.7071067811865475 0.7071067811865476 209.7599999999999909 420.9449999999999932 Tm
+(DRAFT) Tj
+ET
+Q
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 770.897077606299149 Td
+(CREATE TABLE DetailRental \() Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 756.5970685984251531 Td
+(    Rent_num int \(4\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 742.2970595905511573 Td
+(    Vid_Num int\(5\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 727.9970505826771614 Td
+(    Detail_Fee decimal\(9,2\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 713.6970415748031655 Td
+(    Detail_Duedate varchar\(10\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 699.3970325669291697 Td
+(    Detail_Returndate varchar\(10\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 685.0970235590550601 Td
+(    Detail_Dailylatefee int\(10\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 670.7970145511810642 Td
+(    PRIMARY KEY\(Rent_num,Vid_Num\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 656.4970055433070684 Td
+(    FOREIGN KEY \(Rent_num\) REFERENCES Rental\(Rent_num\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 642.1969965354330725 Td
+(    FOREIGN KEY \(Vid_Num\) REFERENCES Video\(Vid_Num\)\);) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 570.6969514960628658 Td
+(2. Inserting Values) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 556.3969424881888699 Td
+(Insert into Membership\(Mem_num, Mem_Fname, Mem_Lname, Mem_Street, Mem_City,) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 542.096933480314874 Td
+(Mem_State, Mem_Zip, Mem_Balance\)values) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 527.7969244724408782 Td
+(    \(102, 'Tami', 'Dawson', '2632 Takli Circle', 'Norene', 'TN', '37136', 11\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 513.4969154645668823 Td
+(    \(103, 'Curt', 'Knight', '4025 Cornell Court', 'Flatgap', 'KY', '41219', 6\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 499.1969064566927727 Td
+(    \(104, 'Jamal', 'Melendez', '788 East 145th Avenue', 'Quebeck', 'TN', '38579', 0\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 484.8968974488187769 Td
+(    \(105, 'Iva', 'Mcclain', '6045 Musket Ball Circle', 'Summit', 'KY', '42783', 15\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 470.5968884409447242 Td
+(    \(106, 'Miranda', 'Parks', '4469 Maxwell Place', 'Germantown', 'TN', '38183', 0\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 456.2968794330706714 Td
+(    \(107, 'Rosario', 'Elliott', '7578 Danner Avenue', 'Columbia', 'TN', '38402', 5\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 441.9968704251966756 Td
+(    \(108, 'Mattie', 'Guy', '4390 Evergreen Street', 'Lily', 'KY', '40740', 0\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 427.6968614173226229 Td
+(    \(109, 'Clint', 'Ochoa', '1711 Elm Street', 'Greeneville', 'TN', '37745', 10\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 413.396852409448627 Td
+(    \(110, 'Lewis', 'Rosales', '4524 Southwind Circle', 'Counce', 'TN', '38326', 0\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 399.0968434015745743 Td
+(    \(111, 'Stacy', 'Mann', '2789 East Cook Avenue', 'Murfreesboro', 'TN', '37132', 8\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 384.7968343937005216 Td
+(    \(112, 'Luis', 'Trujillo', '7267 Melvin Avenue', 'Heiskell', 'TN', '37754', 3\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 370.4968253858265257 Td
+(    \(113, 'Minnie', 'Gonzales', '6430 Vasili Drive', 'Williston', 'TN', '38076', 0\);) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 327.5967983622043675 Td
+( Insert into Price\(Price_Code, Price_Description,Price_Rentfee, Price_Dailylatefee\)values) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 313.2967893543303717 Td
+(    \(1,'Standard',2,1\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 298.9967803464563758 Td
+(    \(2,'New Release',3.5,3\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 284.6967713385823799 Td
+(    \(3,'Discount',1.5,1\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 270.3967623307082704 Td
+(    \(4,'Weekly Special',1,.5\);) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 241.7967443149602786 Td
+(Insert into  Rental\(Rent_num ,Rent_Date,Mem_num\)values) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 227.4967353070861691 Td
+(    \(1001, '2016-03-01', 103\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 213.1967262992121732 Td
+(    \(1002, '2016-03-01', 105\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 198.8967172913381773 Td
+(    \(1003, '2016-03-02', 102\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 184.5967082834641815 Td
+(    \(1004, '2016-03-02', 110\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 170.2966992755900719 Td
+(    \(1005, '2016-03-02', 111\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 155.9966902677160761 Td
+(    \(1006, '2016-03-02', 107\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 141.6966812598420802 Td
+(    \(1007, '2016-03-02', 104\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 127.3966722519679706 Td
+(    \(1008, '2016-03-03', 105\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 113.0966632440939748 Td
+(    \(1009, '2016-03-03', 111\);) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 84.4966452283458693 Td
+(Insert into) Tj
+ET
+q
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.431 g
+217.5399999999999352 813.5435433070865656 Td
+(TXT to PDF Local Converter Workspace) Tj
+ET
+0.82 G
+0.4251968503937008 w
+56.6929133858267775 807.8742519685039269 m
+538.5870866141731312 807.8742519685039269 l
+S
+Q
+q
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.431 g
+216.144999999999925 28.3464566929134207 Td
+(Protected Client-Side Document Compile) Tj
+ET
+Q
+q
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 g
+274.7799999999999727 22.6771653543306684 Td
+(Page 2 of 7) Tj
+ET
+Q
+endstream
+endobj
+7 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 595.2799999999999727 841.8899999999999864]
+/Contents 8 0 R
+>>
+endobj
+8 0 obj
+<<
+/Length 7818
+>>
+stream
+0.4251968503937008 w
+0.82 G
+q
+BT
+/F2 52 Tf
+59.7999999999999972 TL
+0.902 g
+0.7071067811865476 0.7071067811865475 -0.7071067811865475 0.7071067811865476 209.7599999999999909 420.9449999999999932 Tm
+(DRAFT) Tj
+ET
+Q
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 785.1970866141732586 Td
+(Movie\(Movie_Num,Movie_Name,Movie_Year,Movie_cost,Movie_genre,Price_code\)values) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 770.897077606299149 Td
+(    \(1234, 'The Cesar Family Christmas', 2014, 39.95, 'FAMILY', 2\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 756.5970685984251531 Td
+(    \(1235, 'Smokey Mountain Wildlife', 2011, 59.95, 'ACTION', 1\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 742.2970595905511573 Td
+(    \(1236, 'Richard Goodhope', 2015, 59.95, 'DRAMA', 2\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 727.9970505826771614 Td
+(    \(1237, 'Beatnik Fever', 2014, 29.95, 'COMEDY', 2\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 713.6970415748031655 Td
+(    \(1238, 'Constant Companion', 2015, 89.95, 'DRAMA', NULL\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 699.3970325669291697 Td
+(    \(1239, 'Where Hope Dies', 2005, 25.49, 'DRAMA', 3\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 685.0970235590550601 Td
+(    \(1245, 'Time to Burn', 2012, 45.49, 'ACTION', 1\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 670.7970145511810642 Td
+(    \(1246, 'What He Doesn''t Know', 2013, 58.29, 'COMEDY', 1\);) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 613.5969785196850808 Td
+(Insert into  Video \(Vid_Num,Vid_indate,Movie_num\)values) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 599.2969695118109712 Td
+(    \(54324, '18-JUN-15', 1234\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 584.9969605039369753 Td
+(    \(54325, '18-JUN-15', 1234\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 570.6969514960628658 Td
+(    \(34341, '22-JAN-14', 1235\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 556.3969424881888699 Td
+(    \(34342, '22-JAN-14', 1235\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 542.096933480314874 Td
+(    \(34366, '02-MAR-16', 1236\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 527.7969244724408782 Td
+(    \(34367, '02-MAR-16', 1236\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 513.4969154645668823 Td
+(    \(34368, '02-MAR-16', 1236\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 499.1969064566927727 Td
+(    \(34369, '02-MAR-16', 1236\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 484.8968974488187769 Td
+(    \(44392, '21-OCT-15', 1237\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 470.5968884409447242 Td
+(    \(44397, '21-OCT-15', 1237\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 456.2968794330706714 Td
+(    \(59237, '14-FEB-16', 1237\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 441.9968704251966756 Td
+(    \(61388, '25-JAN-14', 1239\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 427.6968614173226229 Td
+(    \(61353, '28-JAN-13', 1245\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 413.396852409448627 Td
+(    \(61354, '28-JAN-13', 1245\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 399.0968434015745743 Td
+(    \(61367, '30-JUL-15', 1246\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 384.7968343937005216 Td
+(    \(61369, '30-JUL-15', 1246\);) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 341.8968073700784771 Td
+(Insert into DetailRental \(Rent_num, Vid_Num, Detail_Fee, Detail_Duedate, Detail_Returndate,) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 327.5967983622043675 Td
+(Detail_Dailylatefee\) values) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 313.2967893543303717 Td
+(    \(1001, 34342, 2, '04-MAR-16', '02-MAR-16', NULL\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 298.9967803464563758 Td
+(    \(1001, 61353, 2, '04-MAR-16', '03-MAR-16', 1\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 284.6967713385823799 Td
+(    \(1002, 59237, 3.5, '04-MAR-16', '04-MAR-16', 1\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 270.3967623307082704 Td
+(    \(1003, 54325, 3.5, '04-MAR-16', '09-MAR-16', 3\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 256.0967533228342745 Td
+(    \(1003, 61369, 2, '06-MAR-16', '09-MAR-16', 3\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 241.7967443149602786 Td
+(    \(1003, 61388, 0, '06-MAR-16', '09-MAR-16', 1\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 227.4967353070861691 Td
+(    \(1004, 44392, 3.5, '05-MAR-16', '07-MAR-16', 3\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 213.1967262992121732 Td
+(    \(1004, 34367, 3.5, '05-MAR-16', '07-MAR-16', 3\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 198.8967172913381773 Td
+(    \(1004, 34341, 2, '07-MAR-16', '07-MAR-16', 1\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 184.5967082834641815 Td
+(    \(1005, 34342, 2, '07-MAR-16', '05-MAR-16', 1\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 170.2966992755900719 Td
+(    \(1005, 44397, 3.5, '05-MAR-16', '05-MAR-16', 3\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 155.9966902677160761 Td
+(    \(1006, 34366, 3.5, '05-MAR-16', '04-MAR-16', 3\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 141.6966812598420802 Td
+(    \(1006, 61367, 2, '07-MAR-16', NULL, 1\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 127.3966722519679706 Td
+(    \(1007, 34368, 3.5, '05-MAR-16', NULL, 3\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 113.0966632440939748 Td
+(    \(1008, 34369, 3.5, '05-MAR-16', '05-MAR-16', 3\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 98.7966542362199789 Td
+(    \(1009, 54324, 3.5, '05-MAR-16', NULL, 3\),) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 84.4966452283458693 Td
+(    \(1001, 34366, 3.5, '04-MAR-16', '02-MAR-16', 3\);) Tj
+ET
+q
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.431 g
+217.5399999999999352 813.5435433070865656 Td
+(TXT to PDF Local Converter Workspace) Tj
+ET
+0.82 G
+0.4251968503937008 w
+56.6929133858267775 807.8742519685039269 m
+538.5870866141731312 807.8742519685039269 l
+S
+Q
+q
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.431 g
+216.144999999999925 28.3464566929134207 Td
+(Protected Client-Side Document Compile) Tj
+ET
+Q
+q
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 g
+274.7799999999999727 22.6771653543306684 Td
+(Page 3 of 7) Tj
+ET
+Q
+endstream
+endobj
+9 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 595.2799999999999727 841.8899999999999864]
+/Contents 10 0 R
+>>
+endobj
+10 0 obj
+<<
+/Length 6218
+>>
+stream
+0.4251968503937008 w
+0.82 G
+q
+BT
+/F2 52 Tf
+59.7999999999999972 TL
+0.902 g
+0.7071067811865476 0.7071067811865475 -0.7071067811865475 0.7071067811865476 209.7599999999999909 420.9449999999999932 Tm
+(DRAFT) Tj
+ET
+Q
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 727.9970505826771614 Td
+(3.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 713.6970415748031655 Td
+(update Movie) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 699.3970325669291697 Td
+(Set Movie_Year= '2010') Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 685.0970235590550601 Td
+(where Movie_num = 1245;) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 656.4970055433070684 Td
+(before) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 642.1969965354330725 Td
+(+-----------+------------+) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 627.8969875275590766 Td
+(| Movie_num | Movie_Year |) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 613.5969785196850808 Td
+(+-----------+------------+) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 599.2969695118109712 Td
+(|      1234 | 2014       |) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 584.9969605039369753 Td
+(|      1235 | 2011       |) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 570.6969514960628658 Td
+(|      1236 | 2015       |) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 556.3969424881888699 Td
+(|      1237 | 2014       |) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 542.096933480314874 Td
+(|      1238 | 2015       |) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 527.7969244724408782 Td
+(|      1239 | 2005       |) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 513.4969154645668823 Td
+(|      1245 | 2012       |) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 499.1969064566927727 Td
+(|      1246 | 2013       |) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 484.8968974488187769 Td
+(+-----------+------------+) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 456.2968794330706714 Td
+(after) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 441.9968704251966756 Td
+(+-----------+------------+) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 427.6968614173226229 Td
+(| Movie_num | Movie_Year |) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 413.396852409448627 Td
+(+-----------+------------+) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 399.0968434015745743 Td
+(|      1234 | 2014       |) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 384.7968343937005216 Td
+(|      1235 | 2011       |) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 370.4968253858265257 Td
+(|      1236 | 2015       |) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 356.196816377952473 Td
+(|      1237 | 2014       |) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 341.8968073700784771 Td
+(|      1238 | 2015       |) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 327.5967983622043675 Td
+(|      1239 | 2005       |) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 313.2967893543303717 Td
+(|      1245 | 2010       |) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 298.9967803464563758 Td
+(|      1246 | 2013       |) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 284.6967713385823799 Td
+(+-----------+------------+) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 256.0967533228342745 Td
+(4.) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 241.7967443149602786 Td
+(update Movie) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 227.4967353070861691 Td
+(set Price_Code = 1) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 213.1967262992121732 Td
+(where Movie_Genre = 'ACTION') Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 170.2966992755900719 Td
+(before) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 155.9966902677160761 Td
+(+-----------+-------------+------------+) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 141.6966812598420802 Td
+(| Movie_num | Movie_Genre | Price_Code |) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 127.3966722519679706 Td
+(+-----------+-------------+------------+) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 113.0966632440939748 Td
+(|      1234 | FAMILY      |          2 |) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 98.7966542362199789 Td
+(|      1235 | ACTION      |          1 |) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 84.4966452283458693 Td
+(|      1236 | DRAMA       |          2 |) Tj
+ET
+q
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.431 g
+217.5399999999999352 813.5435433070865656 Td
+(TXT to PDF Local Converter Workspace) Tj
+ET
+0.82 G
+0.4251968503937008 w
+56.6929133858267775 807.8742519685039269 m
+538.5870866141731312 807.8742519685039269 l
+S
+Q
+q
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.431 g
+216.144999999999925 28.3464566929134207 Td
+(Protected Client-Side Document Compile) Tj
+ET
+Q
+q
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 g
+274.7799999999999727 22.6771653543306684 Td
+(Page 4 of 7) Tj
+ET
+Q
+endstream
+endobj
+11 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 595.2799999999999727 841.8899999999999864]
+/Contents 12 0 R
+>>
+endobj
+12 0 obj
+<<
+/Length 6432
+>>
+stream
+0.4251968503937008 w
+0.82 G
+q
+BT
+/F2 52 Tf
+59.7999999999999972 TL
+0.902 g
+0.7071067811865476 0.7071067811865475 -0.7071067811865475 0.7071067811865476 209.7599999999999909 420.9449999999999932 Tm
+(DRAFT) Tj
+ET
+Q
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 785.1970866141732586 Td
+(|      1237 | COMEDY      |          2 |) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 770.897077606299149 Td
+(|      1238 | DRAMA       |       NULL |) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 756.5970685984251531 Td
+(|      1239 | DRAMA       |          3 |) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 742.2970595905511573 Td
+(|      1245 | ACTION      |          1 |) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 727.9970505826771614 Td
+(|      1246 | COMEDY      |          1 |) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 713.6970415748031655 Td
+(+-----------+-------------+------------+) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 685.0970235590550601 Td
+(after) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 670.7970145511810642 Td
+(+-----------+-------------+------------+) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 656.4970055433070684 Td
+(| Movie_num | Movie_Genre | Price_Code |) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 642.1969965354330725 Td
+(+-----------+-------------+------------+) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 627.8969875275590766 Td
+(|      1234 | FAMILY      |          2 |) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 613.5969785196850808 Td
+(|      1235 | ACTION      |          3 |) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 599.2969695118109712 Td
+(|      1236 | DRAMA       |          2 |) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 584.9969605039369753 Td
+(|      1237 | COMEDY      |          2 |) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 570.6969514960628658 Td
+(|      1238 | DRAMA       |       NULL |) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 556.3969424881888699 Td
+(|      1239 | DRAMA       |          3 |) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 542.096933480314874 Td
+(|      1245 | ACTION      |          3 |) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 527.7969244724408782 Td
+(|      1246 | COMEDY      |          1 |) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 513.4969154645668823 Td
+(+-----------+-------------+------------+) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 484.8968974488187769 Td
+(5. Update) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 470.5968884409447242 Td
+(Set Price_Rentfee = Price_Rentfee + 0.50) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 427.6968614173226229 Td
+(6. Select Movie_Name, Movie_Year , Movie_Genre) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 413.396852409448627 Td
+(    from Movie;) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 384.7968343937005216 Td
+(7. Select Movie_Year, Movie_Name,Movie_cost) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 370.4968253858265257 Td
+(    from Movie Order by Movie_Year DESC;) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 341.8968073700784771 Td
+(8. Select Movie_Name, Movie_Year, Movie_Genre from Movie) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 327.5967983622043675 Td
+(    Order by Movie_Genre ASC, Movie_Year DESC;) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 298.9967803464563758 Td
+(9. Select Movie_num,Movie_Name , Price_Code from Movie) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 284.6967713385823799 Td
+(    where Movie_Name like '%R%';) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 256.0967533228342745 Td
+(10. Select Movie_Name, Movie_Year, Movie_cost feom Movie) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 241.7967443149602786 Td
+(    where Movie_Name like "%hope%";) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 213.1967262992121732 Td
+(11. Select Movie_Name, Movie_Year, Movie_Genre from Movie) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 198.8967172913381773 Td
+(    where Movie_Genre = 'Action';) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 170.2966992755900719 Td
+(12. Select Movie_num, Movie_Name, Movie_cost from Movie) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 155.9966902677160761 Td
+(    where Movie_cost > 40;) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 127.3966722519679706 Td
+(13. Select Movie_num, Movie_Name, Movie_cost , Movie_Genre from Movie) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 113.0966632440939748 Td
+(    where \(Movie_Genre ='Action' or Movie_Genre = 'Comedy'\) and Movie_cost < 50 order by) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 98.7966542362199789 Td
+(Movie_Genre ASC;) Tj
+ET
+q
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.431 g
+217.5399999999999352 813.5435433070865656 Td
+(TXT to PDF Local Converter Workspace) Tj
+ET
+0.82 G
+0.4251968503937008 w
+56.6929133858267775 807.8742519685039269 m
+538.5870866141731312 807.8742519685039269 l
+S
+Q
+q
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.431 g
+216.144999999999925 28.3464566929134207 Td
+(Protected Client-Side Document Compile) Tj
+ET
+Q
+q
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 g
+274.7799999999999727 22.6771653543306684 Td
+(Page 5 of 7) Tj
+ET
+Q
+endstream
+endobj
+13 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 595.2799999999999727 841.8899999999999864]
+/Contents 14 0 R
+>>
+endobj
+14 0 obj
+<<
+/Length 6565
+>>
+stream
+0.4251968503937008 w
+0.82 G
+q
+BT
+/F2 52 Tf
+59.7999999999999972 TL
+0.902 g
+0.7071067811865476 0.7071067811865475 -0.7071067811865475 0.7071067811865476 209.7599999999999909 420.9449999999999932 Tm
+(DRAFT) Tj
+ET
+Q
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 785.1970866141732586 Td
+(14. Select Mem_num, Mem_Fname, Mem_Lname , Mem_Street, Mem_Balance from Membership) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 756.5970685984251531 Td
+(    where Mem_Balance < 5 AND Mem_Street like '%Avenue%';) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 727.9970505826771614 Td
+(15. Select  Movie_Genre, Count\(*\) AS "Number_of_Movies" from Movie) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 713.6970415748031655 Td
+(    group by Movie_Genre;) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 685.0970235590550601 Td
+(16. Select Avg\(Movie_cost\) AS "Average_Movie_Cost") Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 670.7970145511810642 Td
+(    from Movie ;) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 642.1969965354330725 Td
+(17. Select Movie_Genre, AVG\(Movie_cost\) AS "Average_Cost") Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 627.8969875275590766 Td
+(    from Movie group by Movie_Genre;) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 599.2969695118109712 Td
+(18. Select Movie.Movie_Name, Movie.Movie_Genre, Price.Price_Description, Price.Price_RentFee) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 584.9969605039369753 Td
+(from Movie) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 570.6969514960628658 Td
+(    Inner Join Price On Movie.Price_Code = Price.Price_Code ;) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 542.096933480314874 Td
+(19. Select M.Movie_Genre, AVG\( P.Price_RentFee\) As 'Average Rental Fee' from Movie M) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 527.7969244724408782 Td
+(    Inner Join Price P on M.Price_Code= P.Price_Code) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 513.4969154645668823 Td
+(    Where M.Price_Code IS NOT NULL group by M.Movie_Genre ;) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 470.5968884409447242 Td
+(20.Select M.Movie_Name, Movie_Cost / Price_RentFee  AS 'Breakeven Rentals' from Movie M) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 456.2968794330706714 Td
+(    Inner Join Price P on M.Price_Code= P.Price_Code) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 441.9968704251966756 Td
+(    Where M.Movie_Cost IS NOT NULL group by M.Movie_Name ;) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 413.396852409448627 Td
+(21.Select Movie_Name, Movie_Year from Movie) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 399.0968434015745743 Td
+(    where Price_Code IS NOT NULL;) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 370.4968253858265257 Td
+(22. Select Movie_Name, Movie_Genre, Movie_cost from Movie) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 356.196816377952473 Td
+(    where Movie_cost > 44.99 AND Movie_cost < 49.99;) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 327.5967983622043675 Td
+(23. Select M.Movie_Name,P.Price_Description ,P.Price_Rentfee, M.Movie_Genre from Movie M) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 313.2967893543303717 Td
+(    Inner Join Price P on M.Price_Code =P.Price_Code) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 298.9967803464563758 Td
+(    where M.Movie_Genre in \('FAMILY','COMEDY','DRAMA'\);) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 270.3967623307082704 Td
+(24. Select M.Mem_num, M.Mem_Fname, M.Mem_Lname, M.Mem_Balance from Membership M) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 256.0967533228342745 Td
+(    Inner Join Rental R on M.Mem_Num = R.Mem_Num;) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 227.4967353070861691 Td
+(25.Select MIN\( M.Mem_Balance\), MAX\(M.Mem_Balance\), AVG\(M.Mem_Balance\) from) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 213.1967262992121732 Td
+(Membership M) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 198.8967172913381773 Td
+(    Inner Join Rental R on M.Mem_Num = R.Mem_Num ;) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 170.2966992755900719 Td
+(26. Select R.Rent_num, R.Rent_Date, D.Vid_Num, M.Movie_Name, D.Detail_Duedate,) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 155.9966902677160761 Td
+(D.Detail_Returndate from  Rental R) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 141.6966812598420802 Td
+(    Join DetailRental D on R.Rent_num = D.Rent_num) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 127.3966722519679706 Td
+(    join Video v on D.Vid_Num  = v.Vid_Num Join Movie M On V.Movie_num = M.Movie_num) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 113.0966632440939748 Td
+(    Where D.Detail_Returndate > D.Detail_Duedate Order By R.Rent_num, M.Movie_Name;) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 84.4966452283458693 Td
+(27.Select R.Rent_num, R.Rent_Date,M.Movie_Name,D.Detail_Fee from Rental R) Tj
+ET
+q
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.431 g
+217.5399999999999352 813.5435433070865656 Td
+(TXT to PDF Local Converter Workspace) Tj
+ET
+0.82 G
+0.4251968503937008 w
+56.6929133858267775 807.8742519685039269 m
+538.5870866141731312 807.8742519685039269 l
+S
+Q
+q
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.431 g
+216.144999999999925 28.3464566929134207 Td
+(Protected Client-Side Document Compile) Tj
+ET
+Q
+q
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 g
+274.7799999999999727 22.6771653543306684 Td
+(Page 6 of 7) Tj
+ET
+Q
+endstream
+endobj
+15 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 595.2799999999999727 841.8899999999999864]
+/Contents 16 0 R
+>>
+endobj
+16 0 obj
+<<
+/Length 2887
+>>
+stream
+0.4251968503937008 w
+0.82 G
+q
+BT
+/F2 52 Tf
+59.7999999999999972 TL
+0.902 g
+0.7071067811865476 0.7071067811865475 -0.7071067811865475 0.7071067811865476 209.7599999999999909 420.9449999999999932 Tm
+(DRAFT) Tj
+ET
+Q
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 785.1970866141732586 Td
+(    Join DetailRental D on R.Rent_num = D.Rent_num) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 770.897077606299149 Td
+(    Join Video V on D.Vid_Num= V.Vid_Num) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 756.5970685984251531 Td
+(    Join Movie M On V.Movie_num = M.Movie_num) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 742.2970595905511573 Td
+(    where D.Detail_Returndate <= D.Detail_Duedate Order by R.Rent_num,M.Movie_Name;) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 713.6970415748031655 Td
+(28.Select Movie_num, Movie_Genre, round\(avg\(Movie_Cost\) over \(partition by Movie_Genre\), 2\)) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 699.3970325669291697 Td
+(    as 'Average Cost', Movie_Cost, round\(\(\(Movie_Cost - avg\(Movie_Cost\)) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 685.0970235590550601 Td
+(    over \(partition by Movie_Genre\)\) / avg\(Movie_Cost\)) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 670.7970145511810642 Td
+(    over \(partition by Movie_Genre\) * 100\), 2\) as 'Percent Difference' from Movie;) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 656.4970055433070684 Td
+(    select Movie_num, Movie_Genre, round\(avg\(Movie_Cost\) over \(partition by Movie_Genre\), 2\)) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 642.1969965354330725 Td
+(    as 'Average Cost', Movie_Cost, round\(\(\(Movie_Cost - avg\(Movie_Cost\)) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 627.8969875275590766 Td
+(    over \(partition by Movie_Genre\)\) / avg\(Movie_Cost\)) Tj
+ET
+BT
+/F1 11 Tf
+12.6499999999999986 TL
+0.118 0.161 0.231 rg
+56.6929133858267775 613.5969785196850808 Td
+(    over \(partition by Movie_Genre\) * 100\), 2\) as 'Percent Difference' from Movie;) Tj
+ET
+q
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.431 g
+217.5399999999999352 813.5435433070865656 Td
+(TXT to PDF Local Converter Workspace) Tj
+ET
+0.82 G
+0.4251968503937008 w
+56.6929133858267775 807.8742519685039269 m
+538.5870866141731312 807.8742519685039269 l
+S
+Q
+q
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.431 g
+216.144999999999925 28.3464566929134207 Td
+(Protected Client-Side Document Compile) Tj
+ET
+Q
+q
+BT
+/F1 9 Tf
+10.3499999999999996 TL
+0.392 g
+274.7799999999999727 22.6771653543306684 Td
+(Page 7 of 7) Tj
+ET
+Q
+endstream
+endobj
+1 0 obj
+<</Type /Pages
+/Kids [3 0 R 5 0 R 7 0 R 9 0 R 11 0 R 13 0 R 15 0 R ]
+/Count 7
+>>
+endobj
+17 0 obj
+<<
+/Type /Font
+/BaseFont /Helvetica
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+18 0 obj
+<<
+/Type /Font
+/BaseFont /Helvetica-Bold
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+19 0 obj
+<<
+/Type /Font
+/BaseFont /Helvetica-Oblique
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+20 0 obj
+<<
+/Type /Font
+/BaseFont /Helvetica-BoldOblique
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+21 0 obj
+<<
+/Type /Font
+/BaseFont /Courier
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+22 0 obj
+<<
+/Type /Font
+/BaseFont /Courier-Bold
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+23 0 obj
+<<
+/Type /Font
+/BaseFont /Courier-Oblique
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+24 0 obj
+<<
+/Type /Font
+/BaseFont /Courier-BoldOblique
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+25 0 obj
+<<
+/Type /Font
+/BaseFont /Times-Roman
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+26 0 obj
+<<
+/Type /Font
+/BaseFont /Times-Bold
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+27 0 obj
+<<
+/Type /Font
+/BaseFont /Times-Italic
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+28 0 obj
+<<
+/Type /Font
+/BaseFont /Times-BoldItalic
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+29 0 obj
+<<
+/Type /Font
+/BaseFont /ZapfDingbats
+/Subtype /Type1
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+30 0 obj
+<<
+/Type /Font
+/BaseFont /Symbol
+/Subtype /Type1
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+2 0 obj
+<<
+/ProcSet [/PDF /Text /ImageB /ImageC /ImageI]
+/Font <<
+/F1 17 0 R
+/F2 18 0 R
+/F3 19 0 R
+/F4 20 0 R
+/F5 21 0 R
+/F6 22 0 R
+/F7 23 0 R
+/F8 24 0 R
+/F9 25 0 R
+/F10 26 0 R
+/F11 27 0 R
+/F12 28 0 R
+/F13 29 0 R
+/F14 30 0 R
+>>
+/XObject <<
+>>
+>>
+endobj
+31 0 obj
+<<
+/Producer (jsPDF 4.2.1)
+/CreationDate (D:20260611235225-00'00')
+>>
+endobj
+32 0 obj
+<<
+/Type /Catalog
+/Pages 1 0 R
+/OpenAction [3 0 R /FitH null]
+/PageLayout /OneColumn
+>>
+endobj
+xref
+0 33
+0000000000 65535 f 
+0000044236 00000 n 
+0000046097 00000 n 
+0000000015 00000 n 
+0000000152 00000 n 
+0000005888 00000 n 
+0000006025 00000 n 
+0000013360 00000 n 
+0000013497 00000 n 
+0000021367 00000 n 
+0000021505 00000 n 
+0000027776 00000 n 
+0000027915 00000 n 
+0000034400 00000 n 
+0000034539 00000 n 
+0000041157 00000 n 
+0000041296 00000 n 
+0000044332 00000 n 
+0000044458 00000 n 
+0000044589 00000 n 
+0000044723 00000 n 
+0000044861 00000 n 
+0000044985 00000 n 
+0000045114 00000 n 
+0000045246 00000 n 
+0000045382 00000 n 
+0000045510 00000 n 
+0000045637 00000 n 
+0000045766 00000 n 
+0000045899 00000 n 
+0000046001 00000 n 
+0000046350 00000 n 
+0000046436 00000 n 
+trailer
+<<
+/Size 33
+/Root 32 0 R
+/Info 31 0 R
+/ID [ <C2D99061D7BF93D93ACF97DF3CC12B97> <C2D99061D7BF93D93ACF97DF3CC12B97> ]
+>>
+startxref
+46540
+%%EOF

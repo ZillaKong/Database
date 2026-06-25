@@ -1,0 +1,141 @@
+-- 7.24
+IF DB_ID('Projects') IS NULL
+    CREATE DATABASE Projects;
+
+create table Employees(
+    empNo int primary key,
+    fName varchar(50),
+    lName varchar(50),
+    address varchar(100),
+    DOB date,
+    sex char(1) NOT NULL default 'm' check (sex in ('m','f')),
+    position varchar(30) NOT NULL check (position in ('Manager', 'Team Leader', 'Analyst', 'Software Developer')),
+    departmentNo varchar(3)
+);
+
+CREATE TABLE Department (
+    deptNo varchar(3) primary key,
+    deptName varchar(20),
+    mgrEmpNo int FOREIGN KEY REFERENCES Employees(empNo) NOT NULL
+);
+
+Create Table Project (
+    projNo VARCHAR(3) primary Key,
+    projName varchar(30), 
+    deptNo VARCHAR(3) FOREIGN KEY REFERENCES Department(deptNo)
+)
+
+Create Table WorksOn (
+    empNo int NOT NULL,
+    projNo VARCHAR(3) Not Null,
+    dateWorked date Not Null,
+    hoursWorked INT,
+    PRIMARY KEY (empNo, projNo, dateWorked)
+)
+
+ALTER TABLE Employees 
+ADD FOREIGN KEY (departmentNo) REFERENCES Department(deptNo);
+
+-- data Population
+INSERT INTO Employees (empNo, fName, lName, address, DOB, sex, position, departmentNo) VALUES
+(1, 'James', 'Smith', '12 Oak Street', '1980-03-15', 'm', 'Manager', NULL),
+(2, 'Sarah', 'Johnson', '45 Maple Ave', '1985-07-22', 'f', 'Manager', NULL),
+(3, 'Michael', 'Brown', '78 Pine Road', '1990-01-10', 'm', 'Team Leader', NULL),
+(4, 'Emily', 'Davis', '23 Elm Street', '1992-05-18', 'f', 'Analyst', NULL),
+(5, 'Robert', 'Wilson', '56 Cedar Lane', '1988-11-30', 'm', 'Software Developer', NULL),
+(6, 'Linda', 'Taylor', '89 Birch Blvd', '1995-04-25', 'f', 'Software Developer', NULL),
+(7, 'David', 'Anderson', '34 Walnut Ave', '1983-09-14', 'm', 'Analyst', NULL),
+(8, 'Jessica', 'Thomas', '67 Spruce Court', '1991-12-05', 'f', 'Team Leader', NULL),
+(9, 'Daniel', 'Martinez', '90 Willow Way', '1987-06-20', 'm', 'Software Developer', NULL),
+(10, 'Amanda', 'Garcia', '11 Ash Drive', '1993-08-08', 'f', 'Analyst', NULL);
+
+INSERT INTO Department (deptNo, deptName, mgrEmpNo) VALUES
+('D01', 'Engineering', 1),
+('D02', 'Analytics', 2),
+('D03', 'Development', 3);
+
+UPDATE Employees SET departmentNo = 'D01' WHERE empNo IN (1, 3, 5, 9);
+UPDATE Employees SET departmentNo = 'D02' WHERE empNo IN (2, 4, 7, 10);
+UPDATE Employees SET departmentNo = 'D03' WHERE empNo IN (6, 8);
+
+INSERT INTO Project (projNo, projName, deptNo) VALUES
+('P01', 'Cloud Migration', 'D01'),
+('P02', 'Data Warehouse', 'D02'),
+('P03', 'Mobile App', 'D03');
+
+INSERT INTO WorksOn (empNo, projNo, dateWorked, hoursWorked) VALUES
+(3,  'P01', '2024-01-10', 3),
+(5,  'P01', '2024-01-10', 7),
+(9,  'P01', '2024-01-11', 12),
+(4,  'P02', '2024-01-10', 16),
+(7,  'P02', '2024-01-10', 21),
+(10, 'P02', '2024-01-11', 24),
+(6,  'P03', '2024-01-10', 29),
+(8,  'P03', '2024-01-10', 33),
+(5,  'P03', '2024-01-12', 37),
+(9,  'P03', '2024-01-12', 40);
+
+-- 7.25
+GO
+CREATE VIEW FemaleManagerProjects AS
+SELECT
+    p.projNo,
+    p.projName,
+    d.deptNo,
+    d.deptName,
+    e.empNo     AS managerEmpNo,
+    e.fName     AS managerFirstName,
+    e.lName     AS managerLastName
+FROM Project p
+JOIN Department d ON p.deptNo = d.deptNo
+JOIN Employees e  ON d.mgrEmpNo = e.empNo
+WHERE e.sex = 'f';
+
+GO
+SELECT * FROM FemaleManagerProjects ORDER BY projNo;
+
+-- 7.26
+Go
+CREATE VIEW EmployeeProjectHours AS
+SELECT 
+    e.empNo,
+    e.fName,
+    e.lName,
+    p.projName,
+    w.hoursWorked
+FROM Employees e
+JOIN WorksOn w ON e.empNo = w.empNo
+JOIN Project p ON w.projNo = p.projNo;
+
+GO
+SELECT * FROM EmployeeProjectHours;
+
+-- 7.27
+-- a
+select * from EmpProject;
++-------+--------+------------+
+| empNo | projNo | totalHours |
++-------+--------+------------+
+|     1 |      1 |          3 |
+|     2 |      1 |          7 |
+|     3 |      2 |         12 |
+|     4 |      3 |         16 |
+|     5 |      4 |         21 |
+|     6 |      5 |         24 |
+|     7 |      6 |         29 |
+|     8 |      7 |         33 |
+|     9 |      8 |         37 |
+|    10 |      9 |         40 |
++-------+--------+------------+
+
+-- b 
+select projNo from EmpProject where projNo ='SCCS';
+Empty set, 1 warning (0.007 sec)
+
+--c
+select count(projNo) from EmpProject where empNo = 'E1';
++---------------+
+| count(projNo) |
++---------------+
+|             0 |
++---------------+
